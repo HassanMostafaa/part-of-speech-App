@@ -44,3 +44,13 @@ const getRandomTen = async (req, res) => {
 };
 
 module.exports = { getRandomTen };
+
+// was hoping to use incrusion instead of while loop
+
+/*
+if statement (words array includes all the requirements?){
+  yes => response with json
+}else{
+  no => use the getRandomTen() function and repeat !
+}
+*/
