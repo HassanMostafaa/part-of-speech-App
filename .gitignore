@@ -73,7 +73,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+
 
 
 # to leave env in client with the recommended PORT
@@ -84,9 +84,8 @@ server/node_modules/
 server/node_modules
 client/node_modules/
 client/node_modules
-./server/.env
-./client/.env
-.env.test
+
+
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
