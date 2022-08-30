@@ -1,0 +1,110 @@
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addScore } from "../redux/score/scoreSlice";
+import { nextQuestion } from "../redux/words/wordsSlice";
+import { Link } from "react-router-dom";
+import { HiChevronDoubleRight } from "react-icons/hi";
+import { AiOutlineProfile } from "react-icons/ai";
+import { motion } from "framer-motion";
+
+export const Question = ({ word }) => {
+  const [showOptions, setShowOptions] = useState(true);
+  const questionIndex = useSelector(
+    (state) => state.wordsReducer.questionIndex
+  );
+  const score = useSelector((state) => state.scoreReducer.score);
+  const [showNextBtn, setShowNextBtn] = useState(false);
+  const [selectedAns, setSelectedAns] = useState(null);
+  const [seeRank, setSeeRank] = useState(false);
+  const dispatch = useDispatch();
+
+  const submitAns = (e) => {
+    let ans = e.target.innerText;
+
+    // score adjust
+    if (ans.toLowerCase() === word.pos) {
+      // if the ans is correct update the score
+      dispatch(addScore());
+    }
+    // show options adjust
+    setShowOptions(false);
+    // show ans adjust
+    setSelectedAns(ans);
+    // show next btn to get to next question ... [questionIndex +1]
+    if (questionIndex !== 9) {
+      setShowNextBtn(true);
+    } else {
+      setShowNextBtn(false);
+      setSeeRank(true);
+
+      /*
+      this one to keep the score set in the ranking page
+      in case of refreshing
+      */
+      localStorage.setItem("score", score);
+    }
+  };
+
+  const nextBtn = () => {
+    dispatch(nextQuestion());
+    // show options adjust
+    setShowOptions(true);
+    // show ans adjust
+    setSelectedAns(null);
+    // show next btn to get to next question ... [questionIndex +1]
+    setShowNextBtn(false);
+  };
+
+  return (
+    <motion.div
+      className="question"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 1.1, type: "spring", duration: 2.5 }}
+    >
+      <div className="question-text">
+        <p>{word.word}</p>
+      </div>
+      {showOptions && (
+        <div className="question-options">
+          <button onClick={submitAns}>Noun</button>
+          <button onClick={submitAns}>Verb</button>
+          <button onClick={submitAns}>Adjective</button>
+          <button onClick={submitAns}>Adverb</button>
+        </div>
+      )}
+
+      {selectedAns && (
+        <div className="selectedAns">
+          <p
+            className={
+              selectedAns.toLowerCase() === word.pos
+                ? "ans correct"
+                : "ans wrong"
+            }
+          >
+            {selectedAns}
+          </p>
+        </div>
+      )}
+
+      {seeRank && (
+        <div className="see-rank-btn">
+          {" "}
+          <Link to="/rank">
+            See Your Rank{" "}
+            <span className="react-icon">{AiOutlineProfile()}</span>
+          </Link>
+        </div>
+      )}
+
+      {showNextBtn && (
+        <div className="next-question-btn">
+          <button onClick={nextBtn}>
+            Next <span className="react-icon">{HiChevronDoubleRight()}</span>
+          </button>
+        </div>
+      )}
+    </motion.div>
+  );
+};
