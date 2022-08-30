@@ -55,6 +55,14 @@ export const Question = ({ word }) => {
     setShowNextBtn(false);
   };
 
+  const variants = {
+    visible: { opacity: 1 },
+    hidden: { opacity: 0 },
+    transition: { type: "spring", duration: 2.5 },
+  };
+
+  const wordOptions = ["Noun", "Verb", "Adjective", "Adverb"];
+
   return (
     <motion.div
       className="question"
@@ -62,20 +70,45 @@ export const Question = ({ word }) => {
       animate={{ opacity: 1 }}
       transition={{ delay: 1.1, type: "spring", duration: 2.5 }}
     >
-      <div className="question-text">
+      <motion.div
+        className="question-text"
+        initial="hidden"
+        animate="visible"
+        variants={variants}
+      >
         <p>{word.word}</p>
-      </div>
+      </motion.div>
       {showOptions && (
-        <div className="question-options">
-          <button onClick={submitAns}>Noun</button>
-          <button onClick={submitAns}>Verb</button>
-          <button onClick={submitAns}>Adjective</button>
-          <button onClick={submitAns}>Adverb</button>
-        </div>
+        <motion.div
+          className="question-options"
+          initial="hidden"
+          animate="visible"
+          variants={variants}
+        >
+          {wordOptions.map((option, ix) => (
+            <motion.button
+              key={ix}
+              onClick={submitAns}
+              initial={{
+                opacity: 0,
+                y: ix % 2 ? -30 : 30,
+              }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: ix * 0.1, type: "tween", duration: 0.2 }}
+            >
+              {option}
+            </motion.button>
+          ))}
+        </motion.div>
       )}
 
       {selectedAns && (
-        <div className="selectedAns">
+        <motion.div
+          className="selectedAns"
+          initial="hidden"
+          animate="visible"
+          variants={variants}
+        >
           <p
             className={
               selectedAns.toLowerCase() === word.pos
@@ -85,17 +118,22 @@ export const Question = ({ word }) => {
           >
             {selectedAns}
           </p>
-        </div>
+        </motion.div>
       )}
 
       {seeRank && (
-        <div className="see-rank-btn">
+        <motion.div
+          className="see-rank-btn"
+          initial="hidden"
+          animate="visible"
+          variants={variants}
+        >
           {" "}
           <Link to="/rank">
             See Your Rank{" "}
             <span className="react-icon">{AiOutlineProfile()}</span>
           </Link>
-        </div>
+        </motion.div>
       )}
 
       {showNextBtn && (
