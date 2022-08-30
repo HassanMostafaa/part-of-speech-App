@@ -68,3 +68,25 @@ which will take you to
 <img src="./readmeImgs/Screenshot_2.png" alt="rank page" widh="800">
 
 where you will find you ranking based on your score from your answers and a button to try again with another random 10 words
+#
+## in conclusion
+
+you will need 3 terminals to run this app
+
+their directories are.
+
+1- /client "to run the front end"
+
+2- /server "to run the database api"
+
+3- /server "to run the backend server"
+
+- in one of `/server` terminals run `npm install` to install the backend dependencies
+
+- in the `/client` terminal run `npm install` to install the frontend dependencies
+
+- in one of `/server` terminals run `json-server -w api/TestData.json -p 3001` to run the database api. make sure its running on port 3001
+
+- in the other `/server` terminal run `npm run server` to run the backend server. make sure its running on port 3000
+
+- in the `/client` terminal run `npm start` to start the react app and launch the frontend (the client side). make sure it's running on port 3002
