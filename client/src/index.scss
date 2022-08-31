@@ -303,3 +303,11 @@ a {
     width: 95%;
   }
 }
+
+@media screen and (min-height: 1016px) {
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+}
